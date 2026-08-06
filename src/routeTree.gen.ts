@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as FuncionariosRouteImport } from './routes/funcionarios'
+import { Route as OrdensServicoRouteImport } from './routes/ordens-servico'
 import { Route as PedidosRouteImport } from './routes/pedidos'
 import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as ClientesIndexRouteImport } from './routes/clientes.index'
@@ -30,6 +31,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const FuncionariosRoute = FuncionariosRouteImport.update({
   id: '/funcionarios',
   path: '/funcionarios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrdensServicoRoute = OrdensServicoRouteImport.update({
+  id: '/ordens-servico',
+  path: '/ordens-servico',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PedidosRoute = PedidosRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/funcionarios': typeof FuncionariosRoute
+  '/ordens-servico': typeof OrdensServicoRoute
   '/pedidos': typeof PedidosRoute
   '/produtos': typeof ProdutosRoute
   '/clientes/$id': typeof ClientesIdRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/funcionarios': typeof FuncionariosRoute
+  '/ordens-servico': typeof OrdensServicoRoute
   '/pedidos': typeof PedidosRoute
   '/produtos': typeof ProdutosRoute
   '/clientes/$id': typeof ClientesIdRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/funcionarios': typeof FuncionariosRoute
+  '/ordens-servico': typeof OrdensServicoRoute
   '/pedidos': typeof PedidosRoute
   '/produtos': typeof ProdutosRoute
   '/clientes/$id': typeof ClientesIdRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/funcionarios'
+    | '/ordens-servico'
     | '/pedidos'
     | '/produtos'
     | '/clientes/$id'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/funcionarios'
+    | '/ordens-servico'
     | '/pedidos'
     | '/produtos'
     | '/clientes/$id'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/funcionarios'
+    | '/ordens-servico'
     | '/pedidos'
     | '/produtos'
     | '/clientes/$id'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   FuncionariosRoute: typeof FuncionariosRoute
+  OrdensServicoRoute: typeof OrdensServicoRoute
   PedidosRoute: typeof PedidosRoute
   ProdutosRoute: typeof ProdutosRoute
   ClientesIdRoute: typeof ClientesIdRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/funcionarios'
       fullPath: '/funcionarios'
       preLoaderRoute: typeof FuncionariosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ordens-servico': {
+      id: '/ordens-servico'
+      path: '/ordens-servico'
+      fullPath: '/ordens-servico'
+      preLoaderRoute: typeof OrdensServicoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pedidos': {
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   FuncionariosRoute: FuncionariosRoute,
+  OrdensServicoRoute: OrdensServicoRoute,
   PedidosRoute: PedidosRoute,
   ProdutosRoute: ProdutosRoute,
   ClientesIdRoute: ClientesIdRoute,
