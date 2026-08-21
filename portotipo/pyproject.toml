@@ -1,14 +1,15 @@
 [project]
-name = "pool-care-encontro2"
+name = "pool-care-pro-front"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Murilo Faria",email = "murillofs14@gmail.com"}
+    {name = "Murilo",email = "murillofs14@gmail.com"}
 ]
+readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "fastapi (>=0.141.1,<0.142.0)",
-    "uvicorn (>=0.52.4,<0.53.0)"
+    "uvicorn (>=0.52.3,<0.53.0)"
 ]
 
 
