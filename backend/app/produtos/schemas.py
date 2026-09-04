@@ -1,20 +1,22 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
-class ProdutoCriar(BaseModel):        # ENTRA no cadastro
-    nome: str = Field(min_length=2)
-    preco: float = Field(gt=0)
-    em_estoque: bool = True
+class ProdutoCriar(BaseModel):
+    nome: str = Field(min_length=2, max_length=120)
+    preco_compra: float = Field(gt=0)
+    preco_venda: float = Field(gt=0)
 
 
-class ProdutoPublico(BaseModel):      # SAI na resposta
+class ProdutoPublico(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     nome: str
-    preco: float
-    em_estoque: bool
+    preco_compra: float
+    preco_venda: float
 
 
-class ProdutoAtualizar(BaseModel):    # ENTRA na edicao, tudo opcional
-    nome: str | None = None
-    preco: float | None = None
-    em_estoque: bool | None = None
+class ProdutoAtualizar(BaseModel):
+    nome: str | None = Field(default=None, min_length=2, max_length=120)
+    preco_compra: float | None = Field(default=None, gt=0)
+    preco_venda: float | None = Field(default=None, gt=0)
