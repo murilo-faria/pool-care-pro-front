@@ -2,14 +2,17 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from ..database import get_db
+from ..seguranca import get_current_user
 from . import service
 from .schemas import ProdutoAtualizar, ProdutoCriar, ProdutoPublico
 
 
-router = APIRouter(prefix="/produtos", tags=["Produtos"])
-
-# Nenhuma regra de negócio fica aqui.
-# As regras pertencem ao service.
+# Todas as rotas de produtos exigem um token válido.
+router = APIRouter(
+    prefix="/produtos",
+    tags=["Produtos"],
+    dependencies=[Depends(get_current_user)],
+)
 
 
 @router.get("/", response_model=list[ProdutoPublico])
