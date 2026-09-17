@@ -5,8 +5,11 @@ from .models import Produto
 # Única parte do sistema que acessa diretamente o banco de dados.
 
 
-def listar(db: Session):
-    return db.query(Produto).all()
+def listar(db: Session, dono_id: int, nome: str | None = None):
+    consulta = db.query(Produto).filter(Produto.dono_id == dono_id)
+    if nome:
+        consulta = consulta.filter(Produto.nome.ilike(f"%{nome}%"))
+    return consulta.order_by(Produto.nome).all()
 
 
 def buscar(db: Session, produto_id: int):
@@ -21,8 +24,12 @@ def criar(db: Session, dados: dict):
     return produto
 
 
-def buscar_por_nome(db: Session, nome: str):
-    return db.query(Produto).filter(Produto.nome == nome).first()
+def buscar_por_nome(db: Session, dono_id: int, nome: str):
+    return (
+        db.query(Produto)
+        .filter(Produto.dono_id == dono_id, Produto.nome == nome)
+        .first()
+    )
 
 
 def atualizar(db: Session, produto: Produto, mudancas: dict):

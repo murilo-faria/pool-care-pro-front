@@ -12,24 +12,24 @@ from .erros import (
 )
 
 
-def listar(db):
-    return repository.listar(db)
+def listar(db, usuario, nome=None):
+    return repository.listar(db, usuario.id, nome)
 
 
-def buscar(db, produto_id):
+def buscar(db, usuario, produto_id):
     produto = repository.buscar(db, produto_id)
 
-    if produto is None:
+    if produto is None or produto.dono_id != usuario.id:
         raise ProdutoNaoEncontrado(
-            f"Produto {produto_id} não foi encontrado"
+            f"Produto {produto_id} não está no seu catálogo"
         )
 
     return produto
 
 
-def criar(db, dados):
+def criar(db, usuario, dados):
     # RN01: não cadastrar produtos com o mesmo nome.
-    if repository.buscar_por_nome(db, dados["nome"]):
+    if repository.buscar_por_nome(db, usuario.id, dados["nome"]):
         raise NomeJaCadastrado(
             f"Já existe um produto chamado {dados['nome']}"
         )
@@ -40,16 +40,16 @@ def criar(db, dados):
             "O preço de venda deve ser maior que o preço de compra"
         )
 
-    return repository.criar(db, dados)
+    return repository.criar(db, {**dados, "dono_id": usuario.id})
 
 
-def atualizar(db, produto_id, mudancas):
-    produto = buscar(db, produto_id)
+def atualizar(db, usuario, produto_id, mudancas):
+    produto = buscar(db, usuario, produto_id)
 
     novo_nome = mudancas.get("nome")
 
     if novo_nome and novo_nome != produto.nome:
-        if repository.buscar_por_nome(db, novo_nome):
+        if repository.buscar_por_nome(db, usuario.id, novo_nome):
             raise NomeJaCadastrado(
                 f"Já existe um produto chamado {novo_nome}"
             )
@@ -72,8 +72,8 @@ def atualizar(db, produto_id, mudancas):
     return repository.atualizar(db, produto, mudancas)
 
 
-def apagar(db, produto_id):
-    produto = buscar(db, produto_id)
+def apagar(db, usuario, produto_id):
+    produto = buscar(db, usuario, produto_id)
 
     # A verificação de pedidos será adicionada quando Pedido existir.
     repository.apagar(db, produto)
