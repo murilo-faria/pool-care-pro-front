@@ -1,15 +1,10 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from .database import Base, engine
 from .produtos import controller as produtos_controller
 from .produtos.erros import ErroDeProduto, ProdutoNaoEncontrado
 from .usuarios import controller as usuarios_controller
 from .usuarios.erros import CredenciaisInvalidas, ErroDeUsuario
-
-
-# Para a aula: cria as tabelas que ainda não existem.
-Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI(
