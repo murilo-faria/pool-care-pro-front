@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .produtos import controller as produtos_controller
@@ -10,6 +11,13 @@ from .usuarios.erros import CredenciaisInvalidas, ErroDeUsuario
 app = FastAPI(
     title="API Admin Pool",
     version="0.4.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex=r"^http://localhost:\d+$",
+    allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 
