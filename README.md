@@ -31,3 +31,11 @@ A sessão (`SessaoService`) fica no topo do app em um
 `ChangeNotifierProvider`. As telas usam `context.read` e `context.watch`, sem
 receber a sessão pelo construtor. O token vive somente na memória; ao
 recarregar a página, é preciso entrar novamente.
+
+O cadastro chama `POST /usuarios/` pelas mesmas camadas do login e já entra
+com a conta nova. Quando a API recusa um e-mail repetido ou campo inválido, a
+frase aparece na tela.
+
+O token fica no aparelho com `shared_preferences` (no navegador, o
+`localStorage`), isolado no `TokenRepository`. O app o restaura antes de abrir
+as telas; se a API ainda o aceita, o F5 mantém a sessão. O Sair apaga o token.
