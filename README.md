@@ -39,3 +39,12 @@ frase aparece na tela.
 O token fica no aparelho com `shared_preferences` (no navegador, o
 `localStorage`), isolado no `TokenRepository`. O app o restaura antes de abrir
 as telas; se a API ainda o aceita, o F5 mantém a sessão. O Sair apaga o token.
+
+A tela de produtos chama `GET /produtos/` pelas camadas do app (tela,
+`ProdutoService`, `ProdutoRepository`), com o token no cabeçalho, e mostra só
+os produtos de quem está logado. Ela tem quatro estados: carregando, erro (com
+Tentar de novo), lista vazia e a lista.
+
+Tocar em um produto abre o detalhe pela rota `/produto`, com o id nos
+`arguments`: o detalhe busca o produto na API (`GET /produtos/{id}`), para
+mostrar os dados atualizados.
