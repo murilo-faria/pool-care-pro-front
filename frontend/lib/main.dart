@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'repositories/produto_repository.dart';
 import 'repositories/token_repository.dart';
 import 'repositories/usuario_repository.dart';
 import 'routes.dart';
@@ -8,7 +9,9 @@ import 'screens/cadastro_screen.dart';
 import 'screens/inicio_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/perfil_screen.dart';
+import 'screens/produto_screen.dart';
 import 'screens/produtos_screen.dart';
+import 'services/produto_service.dart';
 import 'services/sessao_service.dart';
 import 'widgets/rota_protegida.dart';
 
@@ -16,8 +19,15 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sessao = SessaoService(UsuarioRepository(), tokens: TokenRepository());
   await sessao.restaurar();
+  final produtos = ProdutoService(ProdutoRepository(), sessao);
   runApp(
-    ChangeNotifierProvider.value(value: sessao, child: const PoolCareApp()),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: sessao),
+        Provider.value(value: produtos),
+      ],
+      child: const PoolCareApp(),
+    ),
   );
 }
 
@@ -38,6 +48,11 @@ class PoolCareApp extends StatelessWidget {
             const RotaProtegida(tela: InicioScreen()),
         AppRoutes.produtos: (context) =>
             const RotaProtegida(tela: ProdutosScreen()),
+        AppRoutes.produto: (context) => RotaProtegida(
+          tela: ProdutoScreen(
+            id: ModalRoute.of(context)!.settings.arguments as int?,
+          ),
+        ),
         AppRoutes.perfil: (context) =>
             const RotaProtegida(tela: PerfilScreen()),
       },
