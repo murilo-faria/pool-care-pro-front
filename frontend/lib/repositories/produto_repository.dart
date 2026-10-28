@@ -36,10 +36,73 @@ class ProdutoRepository {
     return Produto.fromJson(jsonDecode(resposta.body) as Map<String, dynamic>);
   }
 
+  Future<Produto> criar(
+    String token,
+    String nome,
+    double precoCompra,
+    double precoVenda,
+  ) async {
+    final resposta = await cliente.post(
+      Uri.parse('$enderecoDaApi/produtos/'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'nome': nome,
+        'preco_compra': precoCompra,
+        'preco_venda': precoVenda,
+      }),
+    );
+    if (resposta.statusCode != 201) {
+      throw RecusaDaApi(resposta.statusCode, _frase(resposta.body));
+    }
+    return Produto.fromJson(jsonDecode(resposta.body) as Map<String, dynamic>);
+  }
+
+  Future<Produto> atualizar(
+    String token,
+    int id,
+    String nome,
+    double precoCompra,
+    double precoVenda,
+  ) async {
+    final resposta = await cliente.patch(
+      Uri.parse('$enderecoDaApi/produtos/$id'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'nome': nome,
+        'preco_compra': precoCompra,
+        'preco_venda': precoVenda,
+      }),
+    );
+    if (resposta.statusCode != 200) {
+      throw RecusaDaApi(resposta.statusCode, _frase(resposta.body));
+    }
+    return Produto.fromJson(jsonDecode(resposta.body) as Map<String, dynamic>);
+  }
+
+  Future<void> excluir(String token, int id) async {
+    final resposta = await cliente.delete(
+      Uri.parse('$enderecoDaApi/produtos/$id'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (resposta.statusCode != 204) {
+      throw RecusaDaApi(resposta.statusCode, _frase(resposta.body));
+    }
+  }
+
   String _frase(String corpo) {
     final detalhe = jsonDecode(corpo)['detail'];
     if (detalhe is String) return detalhe;
     final primeiro = detalhe[0];
-    return '${primeiro['loc'].last}: ${primeiro['msg']}';
+    final mensagem = (primeiro['msg'] as String).replaceFirst(
+      'Value error, ',
+      '',
+    );
+    return '${primeiro['loc'].last}: $mensagem';
   }
 }

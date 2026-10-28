@@ -48,3 +48,10 @@ Tentar de novo), lista vazia e a lista.
 Tocar em um produto abre o detalhe pela rota `/produto`, com o id nos
 `arguments`: o detalhe busca o produto na API (`GET /produtos/{id}`), para
 mostrar os dados atualizados.
+
+O app cria, edita e exclui produtos pelas camadas (tela, `ProdutoService`,
+`ProdutoRepository`), com o token no cabeçalho: `POST /produtos/`,
+`PATCH /produtos/{id}` e `DELETE /produtos/{id}`. Um formulário só serve para
+criar e editar, validando nome e preços antes de enviar. A API continua
+validando os dados e sua frase de erro aparece na tela. Excluir pede confirmação
+e, depois de cada operação, a lista é carregada de novo.

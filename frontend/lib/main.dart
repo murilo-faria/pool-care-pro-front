@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'models/produto.dart';
 import 'repositories/produto_repository.dart';
 import 'repositories/token_repository.dart';
 import 'repositories/usuario_repository.dart';
 import 'routes.dart';
 import 'screens/cadastro_screen.dart';
+import 'screens/formulario_produto_screen.dart';
 import 'screens/inicio_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/perfil_screen.dart';
@@ -51,6 +53,11 @@ class PoolCareApp extends StatelessWidget {
         AppRoutes.produto: (context) => RotaProtegida(
           tela: ProdutoScreen(
             id: ModalRoute.of(context)!.settings.arguments as int?,
+          ),
+        ),
+        AppRoutes.formularioProduto: (context) => RotaProtegida(
+          tela: FormularioProdutoScreen(
+            produto: ModalRoute.of(context)!.settings.arguments as Produto?,
           ),
         ),
         AppRoutes.perfil: (context) =>

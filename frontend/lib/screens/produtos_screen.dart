@@ -28,11 +28,33 @@ class _ProdutosScreenState extends State<ProdutosScreen> {
     });
   }
 
+  Future<void> abrirFormulario() async {
+    final salvou = await Navigator.pushNamed(
+      context,
+      AppRoutes.formularioProduto,
+    );
+    if (salvou == true && mounted) tentarDeNovo();
+  }
+
+  Future<void> abrirProduto(int id) async {
+    final mudou = await Navigator.pushNamed(
+      context,
+      AppRoutes.produto,
+      arguments: id,
+    );
+    if (mudou == true && mounted) tentarDeNovo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Produtos')),
       drawer: const AppDrawer(),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Novo produto',
+        onPressed: abrirFormulario,
+        child: const Icon(Icons.add),
+      ),
       body: FutureBuilder<List<Produto>>(
         future: produtos,
         builder: (context, snapshot) {
@@ -78,13 +100,7 @@ class _ProdutosScreenState extends State<ProdutosScreen> {
                   'Venda: R\$ ${produto.precoVenda.toStringAsFixed(2)}',
                 ),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    AppRoutes.produto,
-                    arguments: produto.id,
-                  );
-                },
+                onTap: () => abrirProduto(produto.id),
               );
             },
           );

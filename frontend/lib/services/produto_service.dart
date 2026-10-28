@@ -41,4 +41,60 @@ class ProdutoService {
       );
     }
   }
+
+  Future<Produto> criar(
+    String nome,
+    double precoCompra,
+    double precoVenda,
+  ) async {
+    try {
+      return await repositorio.criar(
+        sessao.token!,
+        nome,
+        precoCompra,
+        precoVenda,
+      );
+    } on RecusaDaApi catch (erro) {
+      throw ErroDeProdutos(erro.mensagem);
+    } on Exception {
+      throw ErroDeProdutos(
+        'Não consegui falar com a API. O uvicorn está rodando?',
+      );
+    }
+  }
+
+  Future<Produto> atualizar(
+    int id,
+    String nome,
+    double precoCompra,
+    double precoVenda,
+  ) async {
+    try {
+      return await repositorio.atualizar(
+        sessao.token!,
+        id,
+        nome,
+        precoCompra,
+        precoVenda,
+      );
+    } on RecusaDaApi catch (erro) {
+      throw ErroDeProdutos(erro.mensagem);
+    } on Exception {
+      throw ErroDeProdutos(
+        'Não consegui falar com a API. O uvicorn está rodando?',
+      );
+    }
+  }
+
+  Future<void> excluir(int id) async {
+    try {
+      await repositorio.excluir(sessao.token!, id);
+    } on RecusaDaApi catch (erro) {
+      throw ErroDeProdutos(erro.mensagem);
+    } on Exception {
+      throw ErroDeProdutos(
+        'Não consegui falar com a API. O uvicorn está rodando?',
+      );
+    }
+  }
 }
