@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/produto.dart';
 import '../services/produto_service.dart';
+import '../widgets/aviso.dart';
 import 'produtos_screen.dart';
 
 class FormularioProdutoScreen extends StatefulWidget {
@@ -87,10 +88,12 @@ class _FormularioProdutoScreenState extends State<FormularioProdutoScreen> {
         erro = excecao.mensagem;
         salvando = false;
       });
+      avisar(context, 'Não deu para salvar', erro: true);
       return;
     }
 
     if (!mounted) return;
+    avisar(context, 'Produto salvo');
     Navigator.pop(context, true);
   }
 

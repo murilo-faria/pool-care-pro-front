@@ -11,9 +11,13 @@ class ProdutoRepository {
 
   final http.Client cliente;
 
-  Future<List<Produto>> listar(String token) async {
+  Future<List<Produto>> listar(String token, {String busca = ''}) async {
+    var endereco = Uri.parse('$enderecoDaApi/produtos/');
+    if (busca.isNotEmpty) {
+      endereco = endereco.replace(queryParameters: {'nome': busca});
+    }
     final resposta = await cliente.get(
-      Uri.parse('$enderecoDaApi/produtos/'),
+      endereco,
       headers: {'Authorization': 'Bearer $token'},
     );
     if (resposta.statusCode != 200) {

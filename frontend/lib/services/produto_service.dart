@@ -18,9 +18,9 @@ class ProdutoService {
   final ProdutoRepository repositorio;
   final SessaoService sessao;
 
-  Future<List<Produto>> listar() async {
+  Future<List<Produto>> listar({String busca = ''}) async {
     try {
-      return await repositorio.listar(sessao.token!);
+      return await repositorio.listar(sessao.token!, busca: busca);
     } on RecusaDaApi catch (erro) {
       throw ErroDeProdutos(erro.mensagem);
     } on Exception {
