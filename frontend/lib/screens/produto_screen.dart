@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/produto.dart';
 import '../routes.dart';
 import '../services/produto_service.dart';
+import '../widgets/aviso.dart';
 import 'produtos_screen.dart';
 
 class ProdutoScreen extends StatefulWidget {
@@ -67,9 +68,11 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
     } on ErroDeProdutos catch (excecao) {
       if (!mounted) return;
       setState(() => erroDaExclusao = excecao.mensagem);
+      avisar(context, 'Não deu para excluir', erro: true);
       return;
     }
     if (!mounted) return;
+    avisar(context, 'Produto excluído');
     Navigator.pop(context, true);
   }
 

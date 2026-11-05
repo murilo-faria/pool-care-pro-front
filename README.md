@@ -55,3 +55,12 @@ O app cria, edita e exclui produtos pelas camadas (tela, `ProdutoService`,
 criar e editar, validando nome e preços antes de enviar. A API continua
 validando os dados e sua frase de erro aparece na tela. Excluir pede confirmação
 e, depois de cada operação, a lista é carregada de novo.
+
+## Checklist das seis funcionalidades mínimas
+
+- [x] Autenticação: login e cadastro; sem sessão, a tela de entrada.
+- [x] CRUD: o + cria; o detalhe edita e exclui produtos.
+- [x] Relacionamento com o usuário: cada pessoa vê apenas os próprios produtos.
+- [x] Validação nas duas pontas: o formulário valida e a API devolve 422/409 com a frase.
+- [x] Busca/filtro: o campo de busca consulta a API pelo parâmetro `?nome=`.
+- [x] Feedback visual: faixas verdes e vermelhas avisam o resultado das ações.
