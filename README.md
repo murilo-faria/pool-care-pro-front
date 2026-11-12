@@ -64,3 +64,20 @@ e, depois de cada operação, a lista é carregada de novo.
 - [x] Validação nas duas pontas: o formulário valida e a API devolve 422/409 com a frase.
 - [x] Busca/filtro: o campo de busca consulta a API pelo parâmetro `?nome=`.
 - [x] Feedback visual: faixas verdes e vermelhas avisam o resultado das ações.
+
+## Testes
+
+Os testes não precisam da API no ar nem do Chrome. Eles usam um banco separado
+para a API e uma tela controlada para o app.
+
+Na pasta `backend/`:
+
+```powershell
+poetry run pytest
+```
+
+Na pasta `frontend/`:
+
+```powershell
+flutter test
+```
